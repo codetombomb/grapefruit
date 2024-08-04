@@ -25,6 +25,16 @@ body {
   color: black;
 }
 
+#page-id {
+  text-align: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .copy-btn:hover {
   background-color: var(--grapefruit);
   color: white;
