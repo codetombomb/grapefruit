@@ -7,8 +7,14 @@ const isFinalsite = () => {
 };
 
 (async () => {
+  const site = isFinalsite();
   const response = await chrome.runtime.sendMessage({
-    isFinalsite: isFinalsite(),
+    isFinalsite: site,
   });
-  console.log(response);
 })();
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.query === "getPageId") {
+    sendResponse(getPageId());
+  }
+});
