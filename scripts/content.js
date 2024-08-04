@@ -11,9 +11,10 @@ const storeId = (id) => {
   chrome.storage.local.get("grapefruit", (results) => {
     const currentIds = results.grapefruit || [];
 
-    if (currentIds.length < 10 && currentIds[0] !== newPageId) {
-      currentIds.push(newPageId);
+    if (currentIds.length >= 10) {
+      currentIds.pop();
     }
+    currentIds.unshift(newPageId);
 
     chrome.storage.local.set({ grapefruit: currentIds });
   });
