@@ -1,4 +1,14 @@
-(function () {
-  const pageId = document.body.getAttribute("data-pageid");
-  alert(pageId ? pageId : "No page id found");
+const getPageId = () => {
+  return document.body.getAttribute("data-pageid");
+};
+
+const isFinalsite = () => {
+  return !!getPageId();
+};
+
+(async () => {
+  const response = await chrome.runtime.sendMessage({
+    isFinalsite: isFinalsite(),
+  });
+  console.log(response);
 })();
