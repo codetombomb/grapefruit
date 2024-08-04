@@ -1,8 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Darker+Grotesque:wght@300..900&display=swap");
+
+body {
+  width: 300px;
+  --heading-font: "Darker Grotesque", sans-serif;
+  --grapefruit: #da374b;
+}
+
+.title {
+  font-family: var(--heading-font);
+  font-weight: 300;
+  text-align: center;
+}
+
+.grapefruit {
+  color: var(--grapefruit);
+  font-weight: 800;
+}
+
 .copy-btn {
-  background-color: #da374b;
+  background-color: white;
+  border-radius: 15px;
+  border: 1px solid var(--grapefruit);
+  height: 30px;
+  color: black;
+}
+
+.copy-btn:hover {
+  background-color: var(--grapefruit);
   color: white;
 }
 
-.hide {
-  display: none;
+.page-history-link {
+  cursor: pointer;
+  color: var(--grapefruit);
+}
+
+.page-history-display {
+  list-style: none;
+}
+
+.history-link {
+  text-decoration: none;
+}
+
+.history-link:visited {
+  color: gray;
+}
+
+.history-link:hover {
+  text-decoration: underline;
+  color: var(--grapefruit);
 }
