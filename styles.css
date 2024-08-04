@@ -41,9 +41,6 @@ body {
 
 .history-link {
   text-decoration: none;
-}
-
-.history-link:visited {
   color: gray;
 }
 
