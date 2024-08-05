@@ -7,6 +7,7 @@ const pageHistoryUl = document.querySelector(".page-history-display");
 const renderNotFinalsite = () => {
   document.body.textContent = "";
   const message = document.createElement("h1");
+  message.classList.add("title", "grapefruit");
   message.textContent = "This is not a Finalsite page";
   document.body.appendChild(message);
 };
@@ -19,16 +20,34 @@ const getPageId = (tabs) => {
   });
 };
 
+const handleDeleteHistoryLi = ({ target }) => {
+  const deleteIndex = parseInt(target.dataset.indexId.split("-")[1]);
+  console.log(deleteIndex);
+  chrome.storage.local.get("grapefruit", (results) => {
+    results.grapefruit.splice(deleteIndex, 1);
+    chrome.storage.local.set({ grapefruit: results.grapefruit });
+    renderHistory(results.grapefruit);
+  });
+};
+
 const renderHistory = (history) => {
-  history.map((data) => {
+  pageHistoryUl.textContent = "";
+  history.map((data, index) => {
     const linkName = data.siteURL.split("//")[1].slice(0, 20);
     const li = document.createElement("li");
     const siteLink = document.createElement("a");
+    const deleteIcon = document.createElement("img");
+    li.className = "history-li";
+    deleteIcon.dataset.indexId = `data-${index}-${data.id}`;
+    deleteIcon.src = "icons/delete.svg";
+    deleteIcon.alt = "X delete icon";
+    deleteIcon.className = "delete-icon";
+    deleteIcon.addEventListener("click", handleDeleteHistoryLi);
     siteLink.classList.add("history-link");
     siteLink.href = data.siteURL;
     siteLink.target = "_blank";
     siteLink.textContent = `ID: ${data.id}, ${linkName}...`;
-    li.appendChild(siteLink);
+    li.append(deleteIcon, siteLink);
     pageHistoryUl.appendChild(li);
   });
 };
