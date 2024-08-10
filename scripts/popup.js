@@ -3,13 +3,11 @@ const copyButton = document.getElementById("copy");
 const copyMessage = document.querySelector(".copy-message");
 const pageHistoryLink = document.querySelector(".page-history-link");
 const pageHistoryUl = document.querySelector(".page-history-display");
+const pageTitle = document.getElementById("grapefruit-title");
 
 const renderNotFinalsite = () => {
-  document.body.textContent = "";
-  const message = document.createElement("h1");
-  message.classList.add("title", "grapefruit");
-  message.textContent = "This is not a Finalsite page";
-  document.body.appendChild(message);
+  pageTitle.textContent = "This is not a Finalsite page";
+  copyButton.style.display = "none";
 };
 
 const getPageId = (tabs) => {
@@ -22,7 +20,6 @@ const getPageId = (tabs) => {
 
 const handleDeleteHistoryLi = ({ target }) => {
   const deleteIndex = parseInt(target.dataset.indexId.split("-")[1]);
-  console.log(deleteIndex);
   chrome.storage.local.get("grapefruit", (results) => {
     results.grapefruit.splice(deleteIndex, 1);
     chrome.storage.local.set({ grapefruit: results.grapefruit });

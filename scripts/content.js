@@ -27,19 +27,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse(id);
   } else if (request.query === "isFinalsite") {
     sendResponse({ pageChecksOut: isFinalsite() });
+  } else if (request.query === "getHistory") {
+    chrome.storage.local.get("grapefruit", (results) => {
+      sendResponse(results.grapefruit);
+    });
   }
 });
 
-// document.addEventListener("DOMContentLoaded", () => {
 (async () => {
   if (isFinalsite()) {
-    chrome.runtime.sendMessage({ disableIcon: false }, (response) => {
-      console.log(response);
-    });
+    chrome.runtime.sendMessage({ disableIcon: false });
   } else {
-    chrome.runtime.sendMessage({ disableIcon: true }, (response) => {
-      console.log(response);
-    });
+    chrome.runtime.sendMessage({ disableIcon: true });
   }
 })();
-// });
