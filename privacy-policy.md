@@ -14,4 +14,4 @@ All data stored by Grapefruit remains within the user's browser and is not acces
 We may update our Privacy Policy from time to time. Any changes will be reflected on this page.
 
 ## Contact Us
-If you have any questions about this Privacy Policy, please contact us at: [Your Contact Email]
+If you have any questions about this Privacy Policy, please contact me at: codetombomb@gmail.com
