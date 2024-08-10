@@ -20,6 +20,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     sendResponse({ message: "Icon disabled" });
   } else {
     updateIconState({ disable: false, sender });
-    sendResponse({ error: "Icon enabled" });
+    sendResponse({ message: "Icon enabled" });
   }
 });

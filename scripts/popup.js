@@ -80,7 +80,7 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       tabs[0].id,
       { query: "isFinalsite" },
       (response) => {
-        if (response.pageChecksOut) {
+        if (response?.pageChecksOut) {
           getPageId(tabs);
         } else {
           renderNotFinalsite();

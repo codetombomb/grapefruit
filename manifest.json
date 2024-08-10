@@ -21,6 +21,9 @@
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "32": "icons/disable-grapefruit-logo-32.png"
+    }
   }
 }

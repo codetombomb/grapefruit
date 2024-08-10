@@ -6,18 +6,6 @@ const isFinalsite = () => {
   return !!getPageId();
 };
 
-(async () => {
-  if (isFinalsite()) {
-    chrome.runtime.sendMessage({ disableIcon: false }, (response) => {
-      console.log(response);
-    });
-  } else {
-    chrome.runtime.sendMessage({ disableIcon: true }, (response) => {
-      console.log(response);
-    });
-  }
-})();
-
 const storeId = (id) => {
   const newPageId = { id: id, siteURL: window.location.href };
   chrome.storage.local.get("grapefruit", (results) => {
@@ -41,3 +29,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     sendResponse({ pageChecksOut: isFinalsite() });
   }
 });
+
+// document.addEventListener("DOMContentLoaded", () => {
+(async () => {
+  if (isFinalsite()) {
+    chrome.runtime.sendMessage({ disableIcon: false }, (response) => {
+      console.log(response);
+    });
+  } else {
+    chrome.runtime.sendMessage({ disableIcon: true }, (response) => {
+      console.log(response);
+    });
+  }
+})();
+// });
