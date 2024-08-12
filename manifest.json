@@ -10,7 +10,7 @@
     "32": "icons/grapefruit-logo-32.png",
     "16": "icons/grapefruit-logo-16.png"
   },
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["activeTab", "storage"],
   "background": {
     "service_worker": "scripts/background.js"
   },

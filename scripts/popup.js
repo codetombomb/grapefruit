@@ -27,23 +27,58 @@ const handleDeleteHistoryLi = ({ target }) => {
   });
 };
 
+const createEl = (el) => document.createElement(el);
+
+const configEl = (el, config) => {
+  if (config.dataset) {
+    for (const key in config.dataset) {
+      el.dataset[key] = config.dataset[key];
+    }
+  }
+  for (const key in config) {
+    if (key !== "dataset" && key !== "events") {
+      el[key] = config[key];
+    }
+  }
+
+  if (config.events) {
+    for (const event in config.events) {
+      el.addEventListener(event, config.events[event]);
+    }
+  }
+
+  if (config.classList) {
+    el.classList.add(...config.classList);
+  }
+};
+
+const createSiteUrl = (url = url.split("//")[1].slice(0, 20));
+
 const renderHistory = (history) => {
   pageHistoryUl.textContent = "";
   history.map((data, index) => {
-    const linkName = data.siteURL.split("//")[1].slice(0, 20);
-    const li = document.createElement("li");
-    const siteLink = document.createElement("a");
-    const deleteIcon = document.createElement("img");
+    const linkName = createSiteUrl(data.siteURL);
+    const li = createEl("li");
+    const siteLink = createEl("a");
+    const deleteIcon = createEl("img");
     li.className = "history-li";
-    deleteIcon.dataset.indexId = `data-${index}-${data.id}`;
-    deleteIcon.src = "icons/delete.svg";
-    deleteIcon.alt = "X delete icon";
-    deleteIcon.className = "delete-icon";
-    deleteIcon.addEventListener("click", handleDeleteHistoryLi);
-    siteLink.classList.add("history-link");
-    siteLink.href = data.siteURL;
-    siteLink.target = "_blank";
-    siteLink.textContent = `ID: ${data.id}, ${linkName}...`;
+    const deleteIconConfig = {
+      dataset: { indexId: `data-${index}-${data.id}` },
+      src: "icons/delete.svg",
+      alt: "X delete icon",
+      className: "delete-icon",
+      events: {
+        click: handleDeleteHistoryLi,
+      },
+    };
+    const siteLinkConfig = {
+      href: data.siteURL,
+      target: "_blank",
+      textContent: `ID: ${data.id}, ${linkName}...`,
+      classList: ["history-link"],
+    };
+    configEl(deleteIcon, deleteIconConfig);
+    configEl(siteLink, siteLinkConfig);
     li.append(deleteIcon, siteLink);
     pageHistoryUl.appendChild(li);
   });
