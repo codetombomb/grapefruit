@@ -52,7 +52,7 @@ const configEl = (el, config) => {
   }
 };
 
-const createSiteUrl = (url = url.split("//")[1].slice(0, 20));
+const createSiteUrl = (url) => url.split("//")[1].slice(0, 20);
 
 const renderHistory = (history) => {
   pageHistoryUl.textContent = "";
