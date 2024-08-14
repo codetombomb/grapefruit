@@ -27,6 +27,20 @@ const handleDeleteHistoryLi = ({ target }) => {
   });
 };
 
+const handlePinHistoryLi = ({ target }) => {
+  const pinIndex = parseInt(target.dataset.indexId.split("-")[2]);
+  chrome.storage.local.get("grapefruit", (results) => {
+    if (results.grapefruit[pinIndex].pinned) {
+      target.src = "icons/unpin-icon.svg";
+      results.grapefruit[pinIndex].pinned = false;
+    } else {
+      target.src = "icons/pin-icon.svg";
+      results.grapefruit[pinIndex].pinned = true;
+    }
+    chrome.storage.local.set({ grapefruit: results.grapefruit });
+  });
+};
+
 const createEl = (el) => document.createElement(el);
 
 const configEl = (el, config) => {
@@ -61,12 +75,13 @@ const renderHistory = (history) => {
     const li = createEl("li");
     const siteLink = createEl("a");
     const deleteIcon = createEl("img");
+    const pinIcon = createEl("img");
     li.className = "history-li";
     const deleteIconConfig = {
       dataset: { indexId: `data-${index}-${data.id}` },
       src: "icons/delete.svg",
       alt: "X delete icon",
-      className: "delete-icon",
+      className: "history-icon",
       events: {
         click: handleDeleteHistoryLi,
       },
@@ -77,9 +92,18 @@ const renderHistory = (history) => {
       textContent: `ID: ${data.id}, ${linkName}...`,
       classList: ["history-link"],
     };
-    configEl(deleteIcon, deleteIconConfig);
+    const pinIconConfig = {
+      dataset: { indexId: `data-pin-${index}-${data.id}` },
+      src: data.pinned ? "icons/pin-icon.svg" : "icons/unpin-icon.svg",
+      alt: "Pin icon",
+      className: "history-icon",
+      events: {
+        click: handlePinHistoryLi,
+      },
+    };
+    configEl(pinIcon, pinIconConfig), configEl(deleteIcon, deleteIconConfig);
     configEl(siteLink, siteLinkConfig);
-    li.append(deleteIcon, siteLink);
+    li.append(pinIcon, deleteIcon, siteLink);
     pageHistoryUl.appendChild(li);
   });
 };

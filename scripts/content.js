@@ -7,16 +7,26 @@ const isFinalsite = () => {
 };
 
 const storeId = (id) => {
-  const newPageId = { id: id, siteURL: window.location.href };
+  const newPageId = { id: id, siteURL: window.location.href, pinned: false };
+
   chrome.storage.local.get("grapefruit", (results) => {
     const currentIds = results.grapefruit || [];
+    const filterPinned = currentIds.filter((cId) => cId.pinned);
+    const filterUnpinned = currentIds.filter((cId) => !cId.pinned);
 
-    if (currentIds.length >= 10) {
+    if (
+      filterPinned.length + filterUnpinned.length >= 10 &&
+      !filterPinned[filterPinned.length - 1].pinned
+    ) {
       currentIds.pop();
     }
-    currentIds.unshift(newPageId);
+    if (!filterPinned.find((cId) => cId.id === id)) {
+      filterUnpinned.unshift(newPageId);
+    }
 
-    chrome.storage.local.set({ grapefruit: currentIds });
+    chrome.storage.local.set({
+      grapefruit: [...filterPinned, ...filterUnpinned],
+    });
   });
 };
 
