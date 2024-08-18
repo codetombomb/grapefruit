@@ -66,12 +66,9 @@ const configEl = (el, config) => {
   }
 };
 
-const createSiteUrl = (url) => url.split("//")[1].slice(0, 20);
-
 const renderHistory = (history) => {
   pageHistoryUl.textContent = "";
   history.map((data, index) => {
-    const linkName = createSiteUrl(data.siteURL);
     const li = createEl("li");
     const siteLink = createEl("a");
     const deleteIcon = createEl("img");
@@ -89,7 +86,7 @@ const renderHistory = (history) => {
     const siteLinkConfig = {
       href: data.siteURL,
       target: "_blank",
-      textContent: `ID: ${data.id}, ${linkName}...`,
+      textContent: `ID: ${data.id} - ${data.siteURL}...`,
       classList: ["history-link"],
     };
     const pinIconConfig = {

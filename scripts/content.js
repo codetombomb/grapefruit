@@ -7,7 +7,7 @@ const isFinalsite = () => {
 };
 
 const storeId = (id) => {
-  const newPageId = { id: id, siteURL: window.location.href, pinned: false };
+  const newPageId = { id: id, siteURL: document.title, pinned: false };
 
   chrome.storage.local.get("grapefruit", (results) => {
     const currentIds = results.grapefruit || [];
