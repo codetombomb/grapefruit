@@ -24,6 +24,7 @@ body {
   height: 35px;
   padding: 0px 15px;
   color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #page-id {
@@ -51,6 +52,15 @@ body {
   padding: 1px;
 }
 
+.tool-bar {
+}
+
+.icon {
+  height: 15px;
+  padding: 2px 15px 2px 0px;
+  cursor: pointer;
+}
+
 .history-icon {
   height: 15px;
   padding: 2px 15px 2px 0px;
@@ -63,9 +73,6 @@ body {
   padding-top: 5px;
 }
 
-.page-history-container {
-}
-
 .history-link {
   text-decoration: none;
   color: gray;
@@ -74,4 +81,32 @@ body {
 .history-link:hover {
   text-decoration: underline;
   color: var(--grapefruit);
+}
+
+.settings-title {
+  font-weight: 800;
+  font-size: 2em;
+}
+
+#settings-icon {
+  position: fixed;
+  right: 0px;
+  z-index: 10;
+}
+
+#settings-panel {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 300px;
+  height: 275px;
+  background-color: #f1f1f1;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 10px;
+  transition: right 0.3s ease-in-out;
+}
+
+#settings-panel.active {
+  right: -40px;
 }
