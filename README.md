@@ -11,6 +11,7 @@ Grapefruit is a Chrome extension created for the CMS Finalsite support team to a
 - **Display Page ID:** View the Page ID by simply clicking the extension icon.
 - **Copy to Clipboard:** Easily copy the Page ID for use in support tickets or documentation.
 - **History Tracking:** Keep a history of previously viewed Page IDs for quick reference.
+- **Pin Important Pages:** Pin frequently visited pages from your history for quick and easy access later.
 
 ## Installation
 
