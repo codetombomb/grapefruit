@@ -4,6 +4,19 @@ const copyMessage = document.querySelector(".copy-message");
 const pageHistoryLink = document.querySelector(".page-history-link");
 const pageHistoryUl = document.querySelector(".page-history-display");
 const pageTitle = document.getElementById("grapefruit-title");
+const settingsIcon = document.getElementById("settings-icon");
+const settingsPanel = document.getElementById("settings-panel");
+
+settingsIcon.addEventListener("click", (e) => {
+  settingsPanel.classList.toggle("active");
+  if (settingsPanel.classList.contains("active")) {
+    e.target.src = "icons/delete.svg";
+    document.body.style.height = "300px";
+  } else {
+    e.target.src = "icons/settings-icon.svg";
+    document.body.style.height = "100%";
+  }
+});
 
 const renderNotFinalsite = () => {
   pageTitle.textContent = "This is not a Finalsite page";
@@ -86,7 +99,7 @@ const renderHistory = (history) => {
     const siteLinkConfig = {
       href: data.siteURL,
       target: "_blank",
-      textContent: `ID: ${data.id} - ${data.siteURL}...`,
+      textContent: `ID: ${data.id} - ${data.siteTitle}`,
       classList: ["history-link"],
     };
     const pinIconConfig = {
