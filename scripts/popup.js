@@ -6,6 +6,15 @@ const pageHistoryUl = document.querySelector(".page-history-display");
 const pageTitle = document.getElementById("grapefruit-title");
 const settingsIcon = document.getElementById("settings-icon");
 const settingsPanel = document.getElementById("settings-panel");
+let grapefruitSettings = {};
+
+chrome.storage.local.get("grapefruitSettings", (results) => {
+  if (!results.grapefruitSettings) {
+    chrome.storage.local.set({ grapefruitSettings });
+  } else {
+    grapefruitSettings = { ...results.grapefruitSettings };
+  }
+});
 
 settingsIcon.addEventListener("click", (e) => {
   settingsPanel.classList.toggle("active");
@@ -118,6 +127,32 @@ const renderHistory = (history) => {
   });
 };
 
+const handleSettingsChange = ({ target }) => {
+  chrome.storage.local.get("grapefruitSettings", (results) => {
+    const settingsCopy = { ...results.grapefruitSettings };
+    settingsCopy[target.dataset.setting].value = target.checked;
+    saveSettings(settingsCopy);
+  });
+};
+
+const renderSettings = (settings) => {
+  Object.entries(settings).map((setting) => {
+    const p = createEl("p");
+    const input = createEl("input");
+    p.textContent = setting[1].name;
+    input.type = setting[1].type;
+    input.dataset.setting = setting[0];
+    input.checked = setting[1].value;
+    input.addEventListener("change", handleSettingsChange);
+    p.appendChild(input);
+    settingsPanel.appendChild(p);
+  });
+};
+
+const saveSettings = (settings) => {
+  chrome.storage.local.set({ grapefruitSettings: settings });
+};
+
 pageHistoryLink.addEventListener("click", (e) => {
   if (e.target.textContent === "ID History") {
     e.target.textContent = "Close History";
@@ -155,3 +190,36 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     );
   }
 });
+
+(() => {
+  chrome.storage.local.get("grapefruitSettings", (results) => {
+    if (!results.grapefruitSettings) {
+      const defaultSettings = {
+        darkMode: {
+          name: "Dark Mode",
+          value: false,
+          checked: false,
+          type: "checkbox",
+        },
+        displayIdOnContentPage: {
+          name: "Display ID on Page",
+          value: false,
+          checked: false,
+          type: "checkbox",
+        },
+        dimContentPageOnActive: {
+          name: "Page Dimmer",
+          value: false,
+          checked: false,
+          type: "checkbox",
+        },
+      };
+      chrome.storage.local.set({ grapefruitSettings: defaultSettings });
+      grapefruitSettings = defaultSettings;
+      renderSettings(grapefruitSettings);
+    } else {
+      grapefruitSettings = { ...results.grapefruitSettings };
+      renderSettings(grapefruitSettings);
+    }
+  });
+})();
