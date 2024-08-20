@@ -24,6 +24,9 @@ Grapefruit is a Chrome extension created for the CMS Finalsite support team to a
 3. **Pin the Extension:**
     - After loading, click the puzzle piece icon on the Chrome toolbar (Extensions section).
     - Find "Finalsite Page ID Viewer" and click the pin icon to keep it in the toolbar for easy access.
+4. **Display ID on Web Page:**
+    - Go to the settings section within the extension pop-up.
+    - Use the checkbox to toggle the display of the Page ID directly on the web page on or off.
 
 ## Usage
 
