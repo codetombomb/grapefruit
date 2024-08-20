@@ -132,6 +132,13 @@ const handleSettingsChange = ({ target }) => {
     const settingsCopy = { ...results.grapefruitSettings };
     settingsCopy[target.dataset.setting].value = target.checked;
     saveSettings(settingsCopy);
+    if (target.dataset.setting === "displayIdOnContentPage") {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          settingsChange: "displayIdOnContentPage",
+        });
+      });
+    }
   });
 };
 
@@ -195,20 +202,8 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   chrome.storage.local.get("grapefruitSettings", (results) => {
     if (!results.grapefruitSettings) {
       const defaultSettings = {
-        darkMode: {
-          name: "Dark Mode",
-          value: false,
-          checked: false,
-          type: "checkbox",
-        },
         displayIdOnContentPage: {
           name: "Display ID on Page",
-          value: false,
-          checked: false,
-          type: "checkbox",
-        },
-        dimContentPageOnActive: {
-          name: "Page Dimmer",
           value: false,
           checked: false,
           type: "checkbox",

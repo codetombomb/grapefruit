@@ -52,9 +52,6 @@ body {
   padding: 1px;
 }
 
-.tool-bar {
-}
-
 .icon {
   height: 15px;
   padding: 2px 15px 2px 0px;
@@ -105,6 +102,7 @@ body {
   padding: 20px;
   border-radius: 10px;
   transition: right 0.3s ease-in-out;
+  background-color: #f8f8f8;
 }
 
 #settings-panel.active {

@@ -2,6 +2,25 @@ const getPageId = () => {
   return document.body.getAttribute("data-pageid");
 };
 
+const createIdDisplay = (pageId) => {
+  chrome.storage.local.get("grapefruitSettings", (results) => {
+    if (results.grapefruitSettings) {
+      if (results.grapefruitSettings.displayIdOnContentPage.value) {
+        const container = document.createElement("div");
+        container.id = "id-container";
+        const id = document.createElement("p");
+        container.classList.add("page-id-container");
+        id.classList.add("page-id");
+        id.textContent = pageId;
+        container.appendChild(id);
+        document.body.appendChild(container);
+      } else {
+        document.getElementById("id-container").remove();
+      }
+    }
+  });
+};
+
 const isFinalsite = () => {
   return !!getPageId();
 };
@@ -35,7 +54,7 @@ const storeId = (id) => {
   });
 };
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
   if (request.query === "getPageId") {
     const id = getPageId();
     storeId(id);
@@ -46,12 +65,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.storage.local.get("grapefruit", (results) => {
       sendResponse(results.grapefruit);
     });
+  } else if (request.settingsChange === "displayIdOnContentPage") {
+    createIdDisplay(getPageId());
   }
 });
 
 (async () => {
   if (isFinalsite()) {
     chrome.runtime.sendMessage({ disableIcon: false });
+    createIdDisplay(getPageId());
   } else {
     chrome.runtime.sendMessage({ disableIcon: true });
   }
