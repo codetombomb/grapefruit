@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Grapefruit",
-  "version": "1.0",
+  "version": "1.2.0",
   "description": "A debugging tool for the Finalsite support team to quickly view, copy, and track the Page ID of client sites.",
   "author": "tomas.tobar@finalsite.com",
   "icons": {

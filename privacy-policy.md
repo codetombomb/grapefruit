@@ -1,11 +1,11 @@
 # Privacy Policy for Grapefruit Chrome Extension
 
-**Last updated:** 8/10/2024
+**Last updated:** 8/19/2024
 
 Grapefruit is a Chrome extension designed to help Finalsite support staff manage Page IDs on client websites. This extension does not collect, store, or transmit any personal data from users.
 
 ## What Data Does Grapefruit Store?
-Grapefruit stores Page IDs and associated URLs locally within the user's browser. This data is used solely to provide quick access to recently viewed Page IDs. It is not shared with third parties or transmitted to external servers.
+Grapefruit stores Page IDs, Grapefruit settings, and associated URLs locally within the user's browser. This data is used solely to provide quick access to recently viewed Page IDs. It is not shared with third parties or transmitted to external servers.
 
 ## How is Your Data Protected?
 All data stored by Grapefruit remains within the user's browser and is not accessible by anyone other than the user. The extension does not track, monitor, or share any information.
