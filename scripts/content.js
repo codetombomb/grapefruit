@@ -26,30 +26,26 @@ const isFinalsite = () => {
 };
 
 const storeId = (id) => {
-  const newPageId = {
-    id: id,
-    siteURL: window.location.href,
-    siteTitle: document.title,
-    pinned: false,
-  };
-
   chrome.storage.local.get("grapefruit", (results) => {
-    const currentIds = results.grapefruit || [];
-    const filterPinned = currentIds.filter((cId) => cId.pinned);
-    const filterUnpinned = currentIds.filter((cId) => !cId.pinned);
-
-    if (
-      filterPinned.length + filterUnpinned.length >= 10 &&
-      !filterPinned[filterPinned.length - 1].pinned
-    ) {
-      currentIds.pop();
+    let currentIds = results.grapefruit || [];
+    const found = currentIds.find((data) => data.id === id);
+    console.log("we gonna store?", !found);
+    if (!found) {
+      const newPageId = {
+        id: id,
+        siteURL: window.location.href,
+        siteTitle: document.title,
+        pinned: false,
+      };
+      currentIds.push(newPageId);
     }
-    if (!filterPinned.find((cId) => cId.id === id)) {
-      filterUnpinned.unshift(newPageId);
+    currentIds = currentIds.sort((a, b) => b.pinned - a.pinned);
+    if (currentIds.length > 15) {
+      currentIds = currentIds.slice(-15);
     }
-
+    console.log("we storing: ", currentIds);
     chrome.storage.local.set({
-      grapefruit: [...filterPinned, ...filterUnpinned],
+      grapefruit: [...currentIds],
     });
   });
 };
