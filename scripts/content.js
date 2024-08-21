@@ -29,7 +29,6 @@ const storeId = (id) => {
   chrome.storage.local.get("grapefruit", (results) => {
     let currentIds = results.grapefruit || [];
     const found = currentIds.find((data) => data.id === id);
-    console.log("we gonna store?", !found);
     if (!found) {
       const newPageId = {
         id: id,
@@ -37,13 +36,12 @@ const storeId = (id) => {
         siteTitle: document.title,
         pinned: false,
       };
-      currentIds.push(newPageId);
+      currentIds.unshift(newPageId);
     }
     currentIds = currentIds.sort((a, b) => b.pinned - a.pinned);
     if (currentIds.length > 15) {
       currentIds = currentIds.slice(-15);
     }
-    console.log("we storing: ", currentIds);
     chrome.storage.local.set({
       grapefruit: [...currentIds],
     });
