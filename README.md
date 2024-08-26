@@ -8,10 +8,12 @@ Grapefruit is a Chrome extension created for the CMS Finalsite support team to a
 
 ## Features
 
-- **Display Page ID:** View the Page ID by simply clicking the extension icon.
-- **Copy to Clipboard:** Easily copy the Page ID for use in support tickets or documentation.
-- **History Tracking:** Keep a history of previously viewed Page IDs for quick reference.
-- **Pin Important Pages:** Pin frequently visited pages from your history for quick and easy access later.
+- **Display Page ID:** Instantly view the Page ID by clicking the Grapefruit extension icon.
+- **Copy to Clipboard:** Quickly copy the Page ID for use in support tickets or documentation.
+- **History Tracking:** Access a history of previously viewed Page IDs for easy reference.
+- **Pin Important Pages:** Pin frequently visited pages from your history for quick access later.
+- **Display ID on Web Page:** Toggle the display of the Page ID directly on the web page via a checkbox in the settings.
+- **Badge ID Display:** Toggle the Display ID badge on the Grapefruit Extension icon on or off using a checkbox in the settings.
 
 ## Installation
 
@@ -28,14 +30,15 @@ Grapefruit is a Chrome extension created for the CMS Finalsite support team to a
 ## Usage
 
 1. **Viewing the Page ID:**
-    - Upon clicking the Grapefruit icon, the extension will display the Page ID for the current Finalsite page. Grapefruit is designed to only be available for use on Finalsite pages only.
+    - Click the Grapefruit icon to display the Page ID for the current Finalsite page. The extension is only functional on Finalsite pages.
 2. **Copying the Page ID:**
     - Click the copy button next to the displayed ID to copy it to your clipboard.
 3. **Viewing ID History:**
-    - Access a history of previously viewed Page IDs within the extension pop-up by clicking on the "ID History" link.
+    - Click the "ID History" link in the extension pop-up to access a list of previously viewed Page IDs.
 4. **Display ID on Web Page:**
-    - Go to the settings section within the extension pop-up.
-    - Use the checkbox to toggle the display of the Page ID directly on the web page on or off.
+    - In the settings section of the extension pop-up, use the checkbox to toggle the display of the Page ID directly on the web page.
+5. **Badge ID Display:**
+    - In the settings section of the extension pop-up, use the checkbox to toggle the Display ID badge on the Grapefruit Extension icon.
 
 ## Contributing
 
