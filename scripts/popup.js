@@ -139,6 +139,20 @@ const handleSettingsChange = ({ target }) => {
         });
       });
     }
+    debugger;
+    if (target.dataset.setting === "displayIdBadge" && target.checked) {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          settingsChange: "displayIdBadge",
+        });
+      });
+    } else {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          settingsChange: "removeBadgeText",
+        });
+      });
+    }
   });
 };
 
@@ -204,6 +218,12 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const defaultSettings = {
         displayIdOnContentPage: {
           name: "Display ID on Page",
+          value: false,
+          checked: false,
+          type: "checkbox",
+        },
+        displayIdBadge: {
+          name: "Display ID on Badge",
           value: false,
           checked: false,
           type: "checkbox",

@@ -11,9 +11,7 @@ const createIdDisplay = (pageId) => {
         const id = document.createElement("p");
         container.classList.add("page-id-container");
         container.addEventListener("click", () => {
-          // Get page URL
           const siteUrl = `/fs/admin/site/pages/${pageId}`;
-          console.log(siteUrl);
           window.open(window.location.origin + siteUrl, "_blank");
         });
         id.classList.add("page-id");
@@ -67,14 +65,29 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
     });
   } else if (request.settingsChange === "displayIdOnContentPage") {
     createIdDisplay(getPageId());
+  } else if (request.settingsChange === "displayIdBadge") {
+    chrome.runtime.sendMessage({ type: "setBadgeText", text: getPageId() });
+  } else if (request.settingsChange === "removeBadgeText") {
+    chrome.runtime.sendMessage({ type: "removeBadgeText" });
   }
 });
 
+const checkBadgeSettings = () => {
+  chrome.storage.local.get("grapefruitSettings", (results) => {
+    if (results.grapefruitSettings.displayIdBadge.value) {
+      chrome.runtime.sendMessage({ type: "setBadgeText", text: getPageId() });
+    } else {
+      chrome.runtime.sendMessage({ type: "removeBadgeText" });
+    }
+  });
+};
+
 (async () => {
   if (isFinalsite()) {
-    chrome.runtime.sendMessage({ disableIcon: false });
+    chrome.runtime.sendMessage({ type: "isFinalsite" });
+    checkBadgeSettings();
     createIdDisplay(getPageId());
   } else {
-    chrome.runtime.sendMessage({ disableIcon: true });
+    chrome.runtime.sendMessage({ type: "notFinalsite" });
   }
 })();
