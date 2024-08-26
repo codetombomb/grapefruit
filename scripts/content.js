@@ -10,6 +10,12 @@ const createIdDisplay = (pageId) => {
         container.id = "id-container";
         const id = document.createElement("p");
         container.classList.add("page-id-container");
+        container.addEventListener("click", () => {
+          // Get page URL
+          const siteUrl = `/fs/admin/site/pages/${pageId}`;
+          console.log(siteUrl);
+          window.open(window.location.origin + siteUrl, "_blank");
+        });
         id.classList.add("page-id");
         id.textContent = pageId;
         container.appendChild(id);

@@ -1,5 +1,6 @@
 .page-id-container {
   background-color: #da374b;
+  color: white;
   height: 25px;
   width: 60px;
   display: flex;
@@ -9,8 +10,11 @@
   top: 0px;
   left: 0px;
   z-index: 1000;
+  cursor: pointer;
 }
 
-.page-id {
-  color: white;
+.page-id-container:hover {
+  background-color: white;
+  border: 1px solid #da374b;
+  color: #da374b;
 }
