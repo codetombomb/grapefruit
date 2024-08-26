@@ -12,12 +12,46 @@ const updateIconState = ({ disable, sender }) => {
   }
 };
 
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.disableIcon) {
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === "notFinalsite") {
     updateIconState({ disable: true, sender });
-    sendResponse({ message: "Icon disabled" });
-  } else if (!request.disableIcon) {
-    updateIconState({ disable: false, sender });
-    sendResponse({ message: "Icon enabled" });
+    sendResponse({ status: "Icon disabled" });
   }
+  if (request.type === "isFinalsite") {
+    updateIconState({ disable: false, sender });
+    sendResponse({ status: "Icon enabled" });
+  }
+  if (request.type === "setBadgeText") {
+    chrome.action.setBadgeText({ text: request.text });
+    chrome.action.setBadgeBackgroundColor({ color: "#da374b" });
+    sendResponse({ status: "Badge text set" });
+  }
+  if (request.type === "removeBadgeText") {
+    chrome.action.setBadgeText({ text: "" });
+    sendResponse({ status: "Badge text removed" });
+  }
+});
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+  chrome.tabs.get(activeInfo.tabId, (tab) => {
+    const url = tab.url;
+    if (url && !url.startsWith("chrome://")) {
+      chrome.scripting.executeScript({
+        target: { tabId: activeInfo.tabId },
+        func: () => {
+          chrome.storage.local.get("grapefruitSettings", (results) => {
+            if (results.grapefruitSettings.displayIdBadge.value) {
+              const id = document.body.getAttribute("data-pageid");
+              chrome.runtime.sendMessage({
+                type: "setBadgeText",
+                text: id || "N/A",
+              });
+            } else {
+              chrome.runtime.sendMessage({ type: "removeBadgeText" });
+            }
+          });
+        },
+      });
+    }
+  });
 });
