@@ -108,7 +108,7 @@ const renderHistory = (history) => {
     const siteLinkConfig = {
       href: data.siteURL,
       target: "_blank",
-      textContent: `ID: ${data.id} - ${data.siteTitle}`,
+      textContent: `${index + 1}.)  ID: ${data.id} - ${data.siteTitle}`,
       classList: ["history-link"],
     };
     const pinIconConfig = {
