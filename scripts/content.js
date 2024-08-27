@@ -41,10 +41,13 @@ const storeId = (id) => {
         pinned: false,
       };
       currentIds.unshift(newPageId);
+    } else {
+      currentIds.splice(currentIds.indexOf(found), 1);
+      currentIds.unshift(found);
     }
     currentIds = currentIds.sort((a, b) => b.pinned - a.pinned);
     if (currentIds.length > 15) {
-      currentIds = currentIds.slice(-15);
+      currentIds.pop();
     }
     chrome.storage.local.set({
       grapefruit: [...currentIds],
