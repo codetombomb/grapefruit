@@ -8,7 +8,7 @@ const createIdDisplay = (pageId) => {
       if (results.grapefruitSettings.displayIdOnContentPage.value) {
         const container = document.createElement("div");
         container.id = "id-container";
-        const id = document.createElement("p");
+        const id = document.createElement("span");
         container.classList.add("page-id-container");
         container.addEventListener("click", () => {
           const siteUrl = `/fs/admin/site/pages/${pageId}`;

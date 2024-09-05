@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Darker+Grotesque:wght@300..900&display=swap");
+
 .page-id-container {
   background-color: #da374b;
   color: white;
@@ -8,12 +10,18 @@
   position: fixed;
   top: 0px;
   left: 0px;
-  z-index: 1000;
+  z-index: 999999999;
   cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-id {
+  font-family: "Darker Grotesque", sans-serif;
 }
 
 .page-id-container:hover {
   background-color: white;
   border: 1px solid #da374b;
   color: #da374b;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

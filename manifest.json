@@ -10,12 +10,8 @@
     "32": "icons/grapefruit-logo-32.png",
     "16": "icons/grapefruit-logo-16.png"
   },
-<<<<<<< Updated upstream
   "permissions": ["activeTab", "storage", "scripting"],
   "host_permissions": ["<all_urls>"],
-=======
-  "permissions": ["activeTab", "storage"],
->>>>>>> Stashed changes
   "background": {
     "service_worker": "scripts/background.js"
   },
