@@ -63,6 +63,39 @@ const handlePinHistoryLi = ({ target }) => {
   });
 };
 
+const handleEditHistoryLink = (link) => {
+  const linkId = link.text.split("-")[0];
+  const currentText = link.text.split("-")[1].trim();
+  const input = createEl("input");
+  input.type = "text";
+  input.value = currentText;
+  input.className = "edit-input";
+
+  link.replaceWith(input);
+
+  const saveEdit = () => {
+    link.textContent = linkId + input.value.trim();
+    input.replaceWith(link);
+    chrome.storage.local.get("grapefruit", (results) => {
+      const parsedId = linkId.trim().split(" ")[3];
+      const index = results.grapefruit.findIndex(
+        (item) => item.id === parsedId
+      );
+      results.grapefruit[index].siteTitle = input.value;
+      chrome.storage.local.set({ grapefruit: results.grapefruit });
+    });
+  };
+
+  input.addEventListener("blur", saveEdit);
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      saveEdit();
+    }
+  });
+
+  input.focus();
+};
+
 const createEl = (el) => document.createElement(el);
 
 const configEl = (el, config) => {
@@ -95,7 +128,9 @@ const renderHistory = (history) => {
     const siteLink = createEl("a");
     const deleteIcon = createEl("img");
     const pinIcon = createEl("img");
+    const editIcon = createEl("img");
     li.className = "history-li";
+    li.title = data.siteTitle;
     const deleteIconConfig = {
       dataset: { indexId: `data-${index}-${data.id}` },
       src: "icons/delete.svg",
@@ -108,7 +143,7 @@ const renderHistory = (history) => {
     const siteLinkConfig = {
       href: data.siteURL,
       target: "_blank",
-      textContent: `${index + 1}.)  ID: ${data.id} - ${data.siteTitle}`,
+      textContent: `ID: ${data.id} - ${data.siteTitle}`,
       classList: ["history-link"],
     };
     const pinIconConfig = {
@@ -120,9 +155,20 @@ const renderHistory = (history) => {
         click: handlePinHistoryLi,
       },
     };
-    configEl(pinIcon, pinIconConfig), configEl(deleteIcon, deleteIconConfig);
+    const editIconConfig = {
+      dataset: { indexId: `data-edit-${index}-${data.id}` },
+      src: "icons/edit-icon.svg",
+      alt: "Edit icon",
+      className: "history-icon",
+      events: {
+        click: () => handleEditHistoryLink(siteLink),
+      },
+    };
+    configEl(pinIcon, pinIconConfig);
+    configEl(deleteIcon, deleteIconConfig);
+    configEl(editIcon, editIconConfig);
     configEl(siteLink, siteLinkConfig);
-    li.append(pinIcon, deleteIcon, siteLink);
+    li.append(pinIcon, deleteIcon, editIcon, siteLink);
     pageHistoryUl.appendChild(li);
   });
 };
@@ -139,7 +185,6 @@ const handleSettingsChange = ({ target }) => {
         });
       });
     }
-    debugger;
     if (target.dataset.setting === "displayIdBadge" && target.checked) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
