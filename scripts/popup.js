@@ -77,7 +77,7 @@ const handleEditHistoryLink = (link) => {
     link.textContent = linkId + input.value.trim();
     input.replaceWith(link);
     chrome.storage.local.get("grapefruit", (results) => {
-      const parsedId = linkId.trim().split(" ")[3];
+      const parsedId = linkId.split(" ")[1];
       const index = results.grapefruit.findIndex(
         (item) => item.id === parsedId
       );
