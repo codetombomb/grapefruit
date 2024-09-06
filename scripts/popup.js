@@ -130,7 +130,6 @@ const renderHistory = (history) => {
     const pinIcon = createEl("img");
     const editIcon = createEl("img");
     li.className = "history-li";
-    li.title = data.siteTitle;
     const deleteIconConfig = {
       dataset: { indexId: `data-${index}-${data.id}` },
       src: "icons/delete.svg",
