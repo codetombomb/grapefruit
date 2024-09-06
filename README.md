@@ -33,8 +33,8 @@ Grapefruit is a Chrome extension created for the CMS Finalsite support team to a
     - Click the Grapefruit icon to display the Page ID for the current Finalsite page. The extension is only functional on Finalsite pages.
 2. **Copying the Page ID:**
     - Click the copy button next to the displayed ID to copy it to your clipboard.
-3. **Viewing ID History:**
-    - Click the "ID History" link in the extension pop-up to access a list of previously viewed Page IDs.
+3. **Viewing and Managing ID History:**
+    - Click the "ID History" link in the extension pop-up to access a list of previously viewed Page IDs. You can pin important IDs for quick access, and edit or delete any entry from the history list.
 4. **Display ID on Web Page:**
     - In the settings section of the extension pop-up, use the checkbox to toggle the display of the Page ID directly on the web page.
 5. **Badge ID Display:**
