@@ -40,8 +40,8 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
         target: { tabId: activeInfo.tabId },
         func: () => {
           chrome.storage.local.get("grapefruitSettings", (results) => {
-            if (results.grapefruitSettings.displayIdBadge.value) {
-              const id = document.body.getAttribute("data-pageid");
+            const id = document.body.getAttribute("data-pageid");
+            if (results.grapefruitSettings.displayIdBadge.value && id) {
               chrome.runtime.sendMessage({
                 type: "setBadgeText",
                 text: id || "N/A",
