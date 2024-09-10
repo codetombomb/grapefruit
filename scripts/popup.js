@@ -74,8 +74,12 @@ const handleEditHistoryLink = (link) => {
   link.replaceWith(input);
 
   const saveEdit = () => {
-    link.textContent = linkId + input.value.trim();
+    input.removeEventListener("blur", saveEdit);
+    input.removeEventListener("keydown", saveEditOnEnter);
+
+    link.textContent = `${linkId} - ${input.value.trim()}`;
     input.replaceWith(link);
+
     chrome.storage.local.get("grapefruit", (results) => {
       const parsedId = linkId.split(" ")[1];
       const index = results.grapefruit.findIndex(
@@ -86,12 +90,14 @@ const handleEditHistoryLink = (link) => {
     });
   };
 
-  input.addEventListener("blur", saveEdit);
-  input.addEventListener("keydown", (event) => {
+  const saveEditOnEnter = (event) => {
     if (event.key === "Enter") {
       saveEdit();
     }
-  });
+  };
+
+  input.addEventListener("blur", saveEdit);
+  input.addEventListener("keydown", saveEditOnEnter);
 
   input.focus();
 };
