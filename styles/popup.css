@@ -45,6 +45,7 @@ body {
 .page-history-link {
   cursor: pointer;
   color: var(--grapefruit);
+  display: inline;
 }
 
 .page-history-display {
