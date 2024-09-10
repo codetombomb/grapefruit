@@ -11,6 +11,7 @@ const createIdDisplay = (pageId) => {
         const id = document.createElement("span");
         container.classList.add("page-id-container");
         container.addEventListener("click", () => {
+          storeId(pageId);
           const siteUrl = `/fs/admin/site/pages/${pageId}`;
           window.open(window.location.origin + siteUrl, "_blank");
         });
