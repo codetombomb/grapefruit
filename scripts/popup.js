@@ -190,7 +190,8 @@ const handleSettingsChange = ({ target }) => {
           settingsChange: "displayIdBadge",
         });
       });
-    } else {
+    }
+    if (target.dataset.setting === "displayIdBadge" && !target.checked) {
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         chrome.tabs.sendMessage(tabs[0].id, {
           settingsChange: "removeBadgeText",

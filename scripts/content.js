@@ -67,7 +67,9 @@ chrome.runtime.onMessage.addListener((request, _, sendResponse) => {
       sendResponse(results.grapefruit);
     });
   } else if (request.settingsChange === "displayIdOnContentPage") {
-    createIdDisplay(getPageId());
+    if (isFinalsite()) {
+      createIdDisplay(getPageId());
+    }
   } else if (request.settingsChange === "displayIdBadge") {
     chrome.runtime.sendMessage({ type: "setBadgeText", text: getPageId() });
   } else if (request.settingsChange === "removeBadgeText") {
