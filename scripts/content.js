@@ -13,7 +13,8 @@ const createIdDisplay = (pageId) => {
         container.addEventListener("click", () => {
           storeId(pageId);
           const siteUrl = `/fs/admin/site/pages/${pageId}`;
-          window.open(window.location.origin + siteUrl, "_blank");
+          const hostname = "www." + window.location.hostname.split(".").slice(1).join(".")
+          window.open(window.location.protocol + "//" + hostname + siteUrl, "_blank");
         });
         id.classList.add("page-id");
         id.textContent = pageId;
