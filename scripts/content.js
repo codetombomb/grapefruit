@@ -10,11 +10,42 @@ const createIdDisplay = (pageId) => {
         container.id = "id-container";
         const id = document.createElement("span");
         container.classList.add("page-id-container");
-        container.addEventListener("click", () => {
+        container.addEventListener("click", async () => {
           storeId(pageId);
-          const siteUrl = `/fs/admin/site/pages/${pageId}`;
-          const hostname = "www." + window.location.hostname.split(".").slice(1).join(".")
-          window.open(window.location.protocol + "//" + hostname + siteUrl, "_blank");
+
+          const previewUrl =
+            window.location.protocol +
+            "//" +
+            window.location.hostname +
+            `/admin/fs`;
+          const axiosUrl = "https://zesty-redirector.onrender.com/redirect-url";
+
+          try {
+            const response = await fetch(
+              `${axiosUrl}?previewUrl=${previewUrl}`,
+              {
+                method: "GET",
+                redirect: "follow",
+              }
+            );
+            const data = await response.json();
+            console.log("Final URL from server: ", data.finalUrl);
+            const siteUrl = `/fs/admin/site/pages/${pageId}`;
+            const redirectUrl = data.finalUrl + siteUrl;
+
+            window.open(redirectUrl, "_blank");
+          } catch (error) {
+            console.error("Error fetching final URL: ", error);
+            const fallbackHostname =
+              "www." + window.location.hostname.split(".").slice(1).join(".");
+            window.open(
+              window.location.protocol +
+                "//" +
+                fallbackHostname +
+                `/fs/admin/site/pages/${pageId}`,
+              "_blank"
+            );
+          }
         });
         id.classList.add("page-id");
         id.textContent = pageId;
