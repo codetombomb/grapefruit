@@ -18,20 +18,24 @@ const createIdDisplay = (pageId) => {
             "//" +
             window.location.hostname +
             `/admin/fs`;
-          const axiosUrl = "https://zesty-redirector.onrender.com/redirect-url";
+          const proxyUrl = "https://zesty-redirector.onrender.com/redirect-url";
 
           try {
             const response = await fetch(
-              `${axiosUrl}?previewUrl=${previewUrl}`,
+              `${proxyUrl}?previewUrl=${previewUrl}`,
               {
                 method: "GET",
                 redirect: "follow",
               }
             );
+            const fallbackHostname =
+              "www." + window.location.hostname.split(".").slice(1).join(".");
+
+            console.log(fallbackHostname)
             const data = await response.json();
-            console.log("Final URL from server: ", data.finalUrl);
             const siteUrl = `/fs/admin/site/pages/${pageId}`;
-            const redirectUrl = data.finalUrl + siteUrl;
+            const domain = data.finalUrl === "https://staff.finalsite.com" ? window.location.protocol + "//" + window.location.hostname : data.finalUrl
+            const redirectUrl = domain + siteUrl;
 
             window.open(redirectUrl, "_blank");
           } catch (error) {
