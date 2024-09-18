@@ -2,68 +2,86 @@ const getPageId = () => {
   return document.body.getAttribute("data-pageid");
 };
 
-const createIdDisplay = (pageId) => {
-  chrome.storage.local.get("grapefruitSettings", (results) => {
-    if (results.grapefruitSettings) {
-      if (results.grapefruitSettings.displayIdOnContentPage.value) {
-        const container = document.createElement("div");
-        container.id = "id-container";
-        const id = document.createElement("span");
-        container.classList.add("page-id-container");
-        container.addEventListener("click", async () => {
-          storeId(pageId);
+const isFinalsite = () => {
+  return !!getPageId();
+};
 
-          const previewUrl =
-            window.location.protocol +
-            "//" +
-            window.location.hostname +
-            `/admin/fs`;
-          const proxyUrl = "https://zesty-redirector.onrender.com/redirect-url";
+const openPage = async (pageId, fallbackHostname, proxyUrl) => {
+  const previewUrl = `${window.location.protocol}//${window.location.hostname}/admin/fs`;
 
-          try {
-            const response = await fetch(
-              `${proxyUrl}?previewUrl=${previewUrl}`,
-              {
-                method: "GET",
-                redirect: "follow",
-              }
-            );
-            const fallbackHostname =
-              "www." + window.location.hostname.split(".").slice(1).join(".");
+  try {
+    const response = await fetch(`${proxyUrl}?previewUrl=${previewUrl}`, {
+      method: "GET",
+      redirect: "follow",
+    });
+    const data = await response.json();
+    const siteUrl = `/fs/admin/site/pages/${pageId}`;
+    const domain = data.finalUrl === "https://staff.finalsite.com"
+      ? `${window.location.protocol}//${window.location.hostname}`
+      : data.finalUrl;
+    const redirectUrl = domain + siteUrl;
 
-            console.log(fallbackHostname)
-            const data = await response.json();
-            const siteUrl = `/fs/admin/site/pages/${pageId}`;
-            const domain = data.finalUrl === "https://staff.finalsite.com" ? window.location.protocol + "//" + window.location.hostname : data.finalUrl
-            const redirectUrl = domain + siteUrl;
+    window.open(redirectUrl, "_blank");
+  } catch (error) {
+    console.error("Error fetching final URL: ", error);
+    window.open(
+      `${window.location.protocol}//${fallbackHostname}/fs/admin/site/pages/${pageId}`,
+      "_blank"
+    );
+  }
+};
 
-            window.open(redirectUrl, "_blank");
-          } catch (error) {
-            console.error("Error fetching final URL: ", error);
-            const fallbackHostname =
-              "www." + window.location.hostname.split(".").slice(1).join(".");
-            window.open(
-              window.location.protocol +
-                "//" +
-                fallbackHostname +
-                `/fs/admin/site/pages/${pageId}`,
-              "_blank"
-            );
-          }
-        });
-        id.classList.add("page-id");
-        id.textContent = pageId;
-        container.appendChild(id);
-        document.body.appendChild(container);
+const createContainer = (pageId) => {
+  const container = document.createElement("div");
+  container.id = "id-container";
+  container.classList.add("page-id-container");
+
+  const id = document.createElement("span");
+  id.classList.add("page-id");
+  id.textContent = pageId;
+
+  container.appendChild(id);
+  document.body.appendChild(container);
+
+  return container;
+};
+
+const getGrapefruitSettings = () => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get("grapefruitSettings", (results) => {
+      if (results.grapefruitSettings) {
+        resolve(results.grapefruitSettings);
       } else {
-        document.getElementById("id-container").remove();
+        reject("No grapefruit settings found");
       }
-    }
+    });
   });
 };
 
-const isFinalsite = () => {
-  return !!getPageId();
+const createIdDisplay = async (pageId) => {
+  const handleClick = async () => {
+    storeId(pageId);
+    const fallbackHostname = `www.${window.location.hostname.split(".").slice(1).join(".")}`;
+    const proxyUrl = "https://zesty-redirector.onrender.com/redirect-url";
+
+    await openPage(pageId, fallbackHostname, proxyUrl);
+  };
+
+  try {
+    const grapefruitSettings = await getGrapefruitSettings();
+
+    if (grapefruitSettings.displayIdOnContentPage.value) {
+      const container = createContainer(pageId);
+      container.addEventListener("click", handleClick);
+    } else {
+      const existingContainer = document.getElementById("id-container");
+      if (existingContainer) {
+        existingContainer.remove();
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching grapefruit settings: ", error);
+  }
 };
 
 const storeId = (id) => {
